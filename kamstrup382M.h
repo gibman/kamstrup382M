@@ -1,5 +1,5 @@
 #include "esphome.h"
-unsigned const long sampletime_ms = 15000;
+unsigned const long sampletime_ms = 60000;
 static const char* TAG = "Kamstrup382M"; // Logging tag
 static const word  kamnums[]    = { 0x0001,0x0002,0x000d,0x000e,0x041e,0x041f,0x0420,0x0434,0x0435,0x0436,0x0438,0x0439,0x043a,0x0056,0x0057,0x0058,0x007A,0x0059,0x005B,0x005C,0x004A,0x004B,0x03ff,0x0438,0x0439,0x043a,0x0400,0x0540,0x0541,0x0542 };
 static const char* kamstrings[] = {"Energy in","Energy out","Energy in hi-res","Energy out hi-res","Voltage p1","Voltage p2","Voltage p3","Current p1","Current p2","Current p3","Power p1","Power p2","Power p3","Current flow temperature","Current return flow temperature","Current temperature T3","Current temperature T4","Current temperature difference","Pressure in flow","Pressure in return flow","Current flow in flow","Current flow in return flow","Power In","Power p1 In","Power p2 In","Power p3 In","Power Out","Power p1 Out","Power p2 Out","Power p3 Out" };  
@@ -218,7 +218,7 @@ class Kamstrup382M : public PollingComponent, public UARTDevice {
     Sensor *power_p2_out = new Sensor();
     Sensor *power_p3_out = new Sensor();
    
-    Kamstrup382M(UARTComponent *parent) : PollingComponent(sampletime_ms), UARTDevice(parent) {};
+    Kamstrup382M(UARTComponent *parent) : PollingComponent(60000), UARTDevice(parent) {};
    
     void update() override
     {
