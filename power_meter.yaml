@@ -1,0 +1,231 @@
+esphome:
+  name: power_meter
+  platform: ESP8266
+  board: d1_mini
+  #platform: ESP32
+  #board: mhetesp32minikit
+  includes:
+    - kamstrup382M.h
+    
+uart:
+  id: uart_bus
+  tx_pin: GPIO12
+  rx_pin: GPIO14
+  baud_rate: 9600    
+  
+  # https://esphome.io/components/uart.html
+  # The ESP8266 has two UARTs; the second of which is TX-only. 
+  # Only a limited set of pins can be used. 
+  # UART0 may use either .. 
+  #    tx_pin: GPIO1  and rx_pin: GPIO3, or 
+  #    tx_pin: GPIO15 and rx_pin: GPIO13. 
+  # UART1 must use tx_pin: GPIO2. Any other combination of pins will result in use of a software UART.
+
+wifi:
+  ssid: "*"
+  password: "*"
+
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: "***"
+
+ota:
+  password: "***"
+
+
+sensor:
+ - platform: custom
+   lambda: |-
+     auto kam = new Kamstrup382M(id(uart_bus));
+     App.register_component(kam);
+     return {
+        kam->energy_in,
+        kam->energy_out,
+        kam->energy_in_hi_res,
+        kam->energy_out_hi_res,
+        kam->voltage_p1,
+        kam->voltage_p2,
+        kam->voltage_p3,
+        kam->current_p1,
+        kam->current_p2,
+        kam->current_p3,
+        kam->power_p1,
+        kam->power_p2,
+        kam->power_p3,
+        kam->current_flow_temperature,
+        kam->current_return_flow_temperature,
+        kam->current_temperature_t3,
+        kam->current_temperature_t4,
+        kam->current_temperature_difference,
+        kam->pressure_in_flow,
+        kam->pressure_in_return_flow,
+        kam->current_flow_in_flow,
+        kam->current_flow_in_return_flow,
+        kam->power_in,
+        kam->power_p1_in,
+        kam->power_p2_in,
+        kam->power_p3_in,
+        kam->power_out,
+        kam->power_p1_out,
+        kam->power_p2_out,
+        kam->power_p3_out
+
+     };
+     
+   sensors:
+     - name: "Energy in"
+       unit_of_measurement: "Wh"
+       accuracy_decimals: 1
+       device_class: voltage
+       
+     - name: "Energy out"
+       unit_of_measurement: "Wh"
+       accuracy_decimals: 1   
+       device_class: voltage
+       
+     - name: "Energy in hi-res"
+       #unit_of_measurement: MWh
+       accuracy_decimals: 2   
+       device_class: voltage
+       
+     - name: "Energy out hi-res"
+       #unit_of_measurement: GWh
+       accuracy_decimals: 2   
+       device_class: voltage
+       
+     - name: "Voltage p1"
+       #unit_of_measurement: j
+       accuracy_decimals: 2  
+       device_class: voltage
+   
+     - name: "Voltage p2"
+       #unit_of_measurement: kj
+       accuracy_decimals: 2   
+       device_class: voltage
+       
+     - name: "Voltage p3"
+       #unit_of_measurement: Mj
+       accuracy_decimals: 2   
+       device_class: voltage
+       
+     - name: "Current p1"
+       #unit_of_measurement: 
+       accuracy_decimals: 2   
+       device_class: voltage
+       
+     - name: "Current p2"
+       #unit_of_measurement: 
+       accuracy_decimals: 2   
+       device_class: voltage
+       
+     - name: "Current p3"
+       #unit_of_measurement: 
+       accuracy_decimals: 2   
+       device_class: voltage
+   
+     - name: "Power p1"
+       #unit_of_measurement: 
+       accuracy_decimals: 2   
+       device_class: voltage
+       
+     - name: "Power p2"
+       #unit_of_measurement: 
+       accuracy_decimals: 2   
+       device_class: voltage
+       
+     - name: "Power p3"
+       #unit_of_measurement: 
+       accuracy_decimals: 2   
+       device_class: voltage
+       
+     - name: "Current flow temperature"
+       unit_of_measurement: "celsius"
+       accuracy_decimals: 2    
+       device_class: temperature
+       
+     - name: "Current return flow temperature"
+       unit_of_measurement: "celsius"
+       accuracy_decimals: 2    
+       device_class: temperature
+   
+     - name: "Current temperature T3"
+       unit_of_measurement: "celsius"
+       accuracy_decimals: 2    
+       device_class: temperature
+       
+     - name: "Current temperature T4"
+       unit_of_measurement: "celsius"
+       accuracy_decimals: 2    
+       device_class: temperature
+       
+     - name: "Current temperature difference"
+       unit_of_measurement: "celsius"
+       accuracy_decimals: 2    
+       device_class: temperature
+       
+     - name: "Pressure in flow"
+       #unit_of_measurement: 
+       accuracy_decimals: 2
+       device_class: voltage
+       
+     - name: "Pressure in return flow"
+       #unit_of_measurement: 
+       accuracy_decimals: 2    
+       device_class: voltage
+   
+     - name: "Current flow in flow"
+       #unit_of_measurement: 
+       accuracy_decimals: 2    
+       #device_class: voltage
+       
+     - name: "Current flow in return flow"
+       #unit_of_measurement: 
+       accuracy_decimals: 2   
+       #device_class: voltage
+       
+     - name: "Power In"
+       #unit_of_measurement: 
+       accuracy_decimals: 2   
+       device_class: voltage
+       
+     - name: "Power p1 In"
+       #unit_of_measurement: 
+       accuracy_decimals: 2  
+       device_class: voltage
+       
+     - name: "Power p2 In"
+       #unit_of_measurement: 
+       accuracy_decimals: 2   
+       device_class: voltage
+   
+     - name: "Power p3 In"
+       #unit_of_measurement: 
+       accuracy_decimals: 2 
+       device_class: voltage
+
+     - name: "Power Out"
+       #unit_of_measurement: 
+       accuracy_decimals: 2  
+       device_class: voltage
+       
+     - name: "Power p1 Out"
+       #unit_of_measurement: 
+       accuracy_decimals: 2   
+       device_class: voltage
+       
+     - name: "Power p2 Out"
+       #unit_of_measurement: 
+       accuracy_decimals: 2   
+       device_class: voltage
+       
+     - name: "Power p3 Out"
+       #unit_of_measurement: 
+       accuracy_decimals: 2    
+       device_class: voltage
+   
+   
+     
