@@ -78,24 +78,28 @@ sensor:
      
    sensors:
      - name: "Energy in"
-       unit_of_measurement: "Wh"
+       unit_of_measurement: "kWh"
        accuracy_decimals: 1
-       device_class: voltage
+       device_class: energy
+       state_class: total_increasing
        
      - name: "Energy out"
-       unit_of_measurement: "Wh"
-       accuracy_decimals: 1   
-       device_class: voltage
+       unit_of_measurement: "kWh"
+       accuracy_decimals: 1
+       device_class: energy
+       state_class: total_increasing
        
      - name: "Energy in hi-res"
-       #unit_of_measurement: MWh
-       accuracy_decimals: 2   
-       device_class: voltage
+       unit_of_measurement: "kWh"
+       accuracy_decimals: 1
+       device_class: energy
+       state_class: total_increasing
        
      - name: "Energy out hi-res"
-       #unit_of_measurement: GWh
-       accuracy_decimals: 2   
-       device_class: voltage
+      unit_of_measurement: "kWh"
+       accuracy_decimals: 1
+       device_class: energy
+       state_class: total_increasing
        
      - name: "Voltage p1"
        #unit_of_measurement: j
